@@ -49,7 +49,7 @@ Viewer::Viewer(int threadCount)
   m_button1->set_caption("PNG");
   m_button1->set_enabled(false);
   m_button1->set_callback([&](void) {
-    nanogui::Vector2i size = framebuffer_size();
+    nanogui::Vector2i size = this->size();
     size.y() -= 50;
     ref<nanogui::Texture> blitTexture =
         new nanogui::Texture(nanogui::Texture::PixelFormat::RGB,
@@ -59,8 +59,23 @@ Viewer::Viewer(int threadCount)
                              nanogui::Texture::WrapMode::ClampToEdge, 1,
                              nanogui::Texture::TextureFlags::ShaderRead |
                                  nanogui::Texture::TextureFlags::RenderTarget);
+    m_tonemapProgram->set_uniform("scale", m_scale);
+    m_tonemapProgram->set_uniform("srgb", m_srgb);
+    m_renderPass->resize(size);
+    m_renderPass->begin();
+    m_renderPass->set_viewport(nanogui::Vector2i(0, 0),
+                               nanogui::Vector2i(size[0], size[1]));
+    m_texture->upload((uint8_t *)m_resultImage->data());
+    m_tonemapProgram->set_texture("source", m_texture);
+    m_tonemapProgram->begin();
+    m_tonemapProgram->draw_array(nanogui::Shader::PrimitiveType::Triangle, 0, 6,
+                                 true);
+    m_tonemapProgram->end();
+    m_renderPass->set_viewport(nanogui::Vector2i(0, 0), framebuffer_size());
+    m_renderPass->end();
+
     ref<RenderPass> blitPass = new RenderPass({blitTexture});
-    m_renderPass->blit_to(nanogui::Vector2i(0, 50), size, blitPass,
+    m_renderPass->blit_to(nanogui::Vector2i(0, 0), size, blitPass,
                           nanogui::Vector2i(0, 0));
 
     Bitmap img(::Vector2i(size.x(), size.y()));
