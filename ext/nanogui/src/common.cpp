@@ -52,6 +52,7 @@ void init() {
 
     #if defined(__APPLE__)
         disable_saved_application_state_osx();
+        glfwInitHint(GLFW_COCOA_CHDIR_RESOURCES, GLFW_FALSE);
     #endif
 
     glfwSetErrorCallback(
@@ -205,6 +206,15 @@ void leave() {
 bool active() {
     return mainloop_active;
 }
+
+std::pair<bool, bool> test_10bit_edr_support() {
+#if defined(NANOGUI_USE_METAL)
+    return metal_10bit_edr_support();
+#else
+    return { false, false };
+#endif
+}
+
 
 void shutdown() {
     glfwTerminate();
@@ -373,6 +383,19 @@ std::vector<std::string> file_dialog(const std::vector<std::pair<std::string, st
             result[i] = result[0] + "\\" + result[i];
         }
         result.erase(begin(result));
+    }
+
+    if (save && ofn.nFilterIndex > 0) {
+        auto ext = filetypes[ofn.nFilterIndex - 1].first;
+        if (ext != "*") {
+            ext.insert(0, ".");
+
+            auto &name = result.front();
+            if (name.size() <= ext.size() ||
+                name.compare(name.size() - ext.size(), ext.size(), ext) != 0) {
+                name.append(ext);
+            }
+        }
     }
 
     return result;

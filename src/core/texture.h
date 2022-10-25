@@ -75,7 +75,6 @@ protected:
   enum TextureMode { MODULATE, REPLACE };
   TextureMode m_mode;
 
-private:
   Bitmap *m_bitmap;
   Color3f m_albedo;
   Vector2f m_scale;

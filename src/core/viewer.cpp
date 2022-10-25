@@ -204,7 +204,7 @@ bool Viewer::resize_event(const nanogui::Vector2i &size) {
   m_panel->set_size(nanogui::Vector2i(size.x(), 50));
   perform_layout();
   m_panel->set_position(
-      nanogui::Vector2i((size.x() - m_panel->size().x()) / 2, size.y()));
+      nanogui::Vector2i((size.x() - m_panel->size().x()) / 2, size.y() - 50));
   return true;
 }
 
