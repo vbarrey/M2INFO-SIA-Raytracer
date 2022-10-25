@@ -28,9 +28,7 @@ public:
 
        While that is not a particularly realistic model of what
        happens in reality, this will greatly simplify the
-       implementation. Please see the course staff if you're
-       interested in implementing a more realistic version
-       of this BRDF. */
+       implementation. */
     m_ks = 1 - m_kd.maxCoeff();
   }
 
