@@ -112,6 +112,9 @@ struct WarpTest {
       if (warpType == Square || warpType == Triangle) {
         x = sample.x();
         y = sample.y();
+      } else if (warpType == Disk) {
+        x = sample.x() * 0.5f + 0.5f;
+        y = sample.y() * 0.5f + 0.5f;
       } else {
         x = std::atan2(sample.y(), sample.x()) * INV_TWOPI;
         if (x < 0)
