@@ -24,12 +24,13 @@ void AreaLight::addChild(Object *obj) {
   }
 }
 
-Color3f AreaLight::intensity(const Hit &hit, const Vector3f &w) const {
+Color3f AreaLight::intensity(const Vector2f &uv, const Normal3f &n,
+                             const Vector3f &w) const {
   throw(RTException("AreaLight::intensity not implemented yet"));
   return Color3f(0.f);
 }
 
-Color3f AreaLight::sample(const Point3f &x, const Point2f &u, float &pdf,
+Color3f AreaLight::sample(const Point3f &x, const Point2f &sample, float &pdf,
                           Vector3f &wi, float &dist) const {
   throw(RTException("AreaLight::sample not implemented yet"));
   return Color3f(0.f);

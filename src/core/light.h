@@ -22,19 +22,20 @@ public:
   }
 
   /** Return the intensity emitted at \c x
-   *   \param x    world space position of a reference point in the scene
-   *   \param u    2D sample value for sampling area lights
-   *   \param pdf  PDF for sampling the chosen direction
-   *   \param wi   incident direction to the light source
-   *   \param dist distance to the light
+   *   \param x       world space position of a reference point in the scene
+   *   \param sample  2D sample value for sampling area lights
+   *   \param pdf     PDF for sampling the chosen direction
+   *   \param wi      incident direction to the light source
+   *   \param dist    distance to the light
    */
-  virtual Color3f sample(const Point3f &x, const Point2f &u, float &pdf,
+  virtual Color3f sample(const Point3f &x, const Point2f &sample, float &pdf,
                          Vector3f &wi, float &dist) const = 0;
 
-  /** Return the intensity emitted at point \param x of the light
-   * in the outgoing direction \param w (for area lights)
+  /** Return the intensity emitted at coordinates \param uv of the light with
+   * normal \param n in the outgoing direction \param w (for area lights)
    */
-  virtual Color3f intensity(const Hit &hit, const Vector3f &w) const {
+  virtual Color3f intensity(const Vector2f &uv, const Normal3f &n,
+                            const Vector3f &w) const {
     return Color3f(0.f);
   }
 

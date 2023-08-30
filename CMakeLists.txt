@@ -1,4 +1,4 @@
-cmake_minimum_required (VERSION 3.2)
+cmake_minimum_required (VERSION 3.5)
 project(sia_raytracer)
 
 add_subdirectory(ext ext_build)
