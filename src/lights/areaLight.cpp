@@ -26,14 +26,20 @@ void AreaLight::addChild(Object *obj) {
 
 Color3f AreaLight::intensity(const Vector2f &uv, const Normal3f &n,
                              const Vector3f &w) const {
-  throw(RTException("AreaLight::intensity not implemented yet"));
-  return Color3f(0.f);
+  if(n.dot(w) <= 0 && !m_twoSided)
+    return Color3f(0.f);
+
+  return m_texture->lookUp(uv);
 }
 
 Color3f AreaLight::sample(const Point3f &x, const Point2f &sample, float &pdf,
                           Vector3f &wi, float &dist) const {
-  throw(RTException("AreaLight::sample not implemented yet"));
-  return Color3f(0.f);
+  
+  Point3f p;
+  Normal3f n;
+  float pdf;
+  
+  m_shape->sample(sample, p, n, pdf);
 }
 
 std::string AreaLight::toString() const {
